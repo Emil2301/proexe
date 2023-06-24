@@ -1,14 +1,13 @@
-import React from 'react'
-import './App.css'
-import Table from './components/table/Table'
+import React from 'react';
+import Table from './components/Table/Table';
+import Dashboard from './components/Dashboard/Dashboard';
 
 function App() {
   return (
-    <div className='App'>
-      <p>Hello World</p>
-      <Table />
+    <div>
+      <Dashboard />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

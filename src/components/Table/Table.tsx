@@ -8,7 +8,7 @@ import Paper from '@mui/material/Paper';
 import React, { useEffect, useState } from 'react';
 import { Users, UsersWithExtraProperties } from '../../types/Types';
 
-const UsersTable = () => {
+const UsersTable: React.FC = () => {
   const [users, setUsers] = useState<Users[]>([]);
   const fetchUserData = () => {
     fetch('https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data')
