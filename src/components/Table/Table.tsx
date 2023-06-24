@@ -24,6 +24,9 @@ const UsersTable: React.FC = () => {
             return { ...rest, city: address.city };
           }),
         );
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
   useEffect(() => {
