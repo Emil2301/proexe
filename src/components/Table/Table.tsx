@@ -8,6 +8,7 @@ import Paper from '@mui/material/Paper';
 import React, { useEffect, useState } from 'react';
 import { Users, UsersWithExtraProperties } from '../../types/Types';
 import styles from './Table.module.css';
+import Button from '@mui/material/Button';
 
 const UsersTable: React.FC = () => {
   const [users, setUsers] = useState<Users[]>([]);
@@ -39,6 +40,8 @@ const UsersTable: React.FC = () => {
               <TableCell align='right'>Username</TableCell>
               <TableCell align='right'>Email</TableCell>
               <TableCell align='right'>City</TableCell>
+              <TableCell align='right'>Edit</TableCell>
+              <TableCell align='right'>Delete</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -51,6 +54,28 @@ const UsersTable: React.FC = () => {
                 <TableCell align='right'>{row.username}</TableCell>
                 <TableCell align='right'>{row.email}</TableCell>
                 <TableCell align='right'>{row.city}</TableCell>
+                <TableCell align='right'>
+                  <Button
+                    variant='contained'
+                    size='small'
+                    style={{
+                      backgroundColor: 'orange',
+                    }}
+                  >
+                    Edit
+                  </Button>
+                </TableCell>
+                <TableCell align='right'>
+                  <Button
+                    variant='contained'
+                    size='small'
+                    style={{
+                      backgroundColor: 'red',
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
