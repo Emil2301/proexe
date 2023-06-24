@@ -2,6 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import styles from './Dashboard.module.css';
+import UsersList from '../UsersList/UsersList';
 
 const Dashboard: React.FC = () => {
   return (
@@ -11,6 +12,7 @@ const Dashboard: React.FC = () => {
           Dashboard
         </Typography>
       </div>
+      <UsersList />
     </Box>
   );
 };

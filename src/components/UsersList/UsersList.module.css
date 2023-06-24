@@ -1,0 +1,10 @@
+.usersList {
+    display: flex;
+    justify-content:center;
+    margin-bottom: 1vh;
+}
+
+.titleAndButton {
+    display: flex;
+    justify-content: space-between;
+}
