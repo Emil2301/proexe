@@ -3,6 +3,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import styles from './Dashboard.module.css';
 import UsersList from '../UsersList/UsersList';
+import { Routes, Route } from 'react-router-dom';
+import AddUser from '../AddUser/AddUser';
 
 const Dashboard: React.FC = () => {
   return (
@@ -12,7 +14,12 @@ const Dashboard: React.FC = () => {
           Dashboard
         </Typography>
       </div>
-      <UsersList />
+      <>
+        <Routes>
+          <Route path='/' element={<UsersList />} />
+          <Route path='/add-user' element={<AddUser />} />
+        </Routes>
+      </>
     </Box>
   );
 };
