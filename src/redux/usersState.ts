@@ -12,7 +12,8 @@ export const usersStateSlice = createSlice({
     addUser: (state, action) => {
       const cities = ['Warszawa', 'Wrocław', 'Poznań', 'Kraków'];
       const randomCity = cities[Math.floor(Math.random() * 4)];
-      const highestIdPlusOne = Math.max(...state.users.map((user) => user.id)) + 1;
+      const highestIdPlusOne =
+        state.users.length > 0 ? Math.max(...state.users.map((user) => user.id)) + 1 : 1;
       const { name, email } = action.payload;
       state.users = [
         ...state.users,
