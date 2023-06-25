@@ -5,21 +5,23 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { User, UserWithExtraProperties } from '../../types/Types';
 import styles from './Table.module.css';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { useSelector, useDispatch } from 'react-redux';
-import { setFetchedUsers, deleteUser, editUser } from '../../redux/usersState';
+import { useDispatch, useSelector } from 'react-redux';
+import { editUser, setFetchedUsers } from '../../redux/usersState';
 import { AppDispatch } from '../../redux/store';
 import { useLocation } from 'react-router-dom';
+import Typography from '@mui/material/Typography';
 
 interface UsersTableProps {
   openModalAndPassRowId: (rowId: number) => void;
 }
 
 const UsersTable: React.FC<UsersTableProps> = ({ openModalAndPassRowId }) => {
+  const [showNoUsersInfo, setShowNoUsersInfo] = useState<boolean>(false);
   const users = useSelector((state: { users: User[] }) => state.users);
   const { state } = useLocation();
 
@@ -167,6 +169,7 @@ const UsersTable: React.FC<UsersTableProps> = ({ openModalAndPassRowId }) => {
                       }}
                       onClick={() => {
                         openModalAndPassRowId(row.id);
+                        setShowNoUsersInfo(true);
                       }}
                     >
                       Delete
@@ -178,6 +181,13 @@ const UsersTable: React.FC<UsersTableProps> = ({ openModalAndPassRowId }) => {
           </TableBody>
         </Table>
       </TableContainer>
+      {showNoUsersInfo && users.length === 0 && (
+        <div className={styles.usersDeletedText}>
+          <Typography variant='h3' gutterBottom>
+            All users are deleted.
+          </Typography>
+        </div>
+      )}
     </div>
   );
 };

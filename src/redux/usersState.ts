@@ -27,6 +27,9 @@ export const usersStateSlice = createSlice({
     },
     deleteUser: (state, action) => {
       state.users = state.users.filter((user: User) => user.id !== action.payload);
+      if (state.users.length === 0) {
+        console.log('pusto tu');
+      }
     },
     editUser: (state, action) => {
       const { row, value, keyName, currentlyEditingId } = action.payload;
