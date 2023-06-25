@@ -117,6 +117,7 @@ const UsersTable: React.FC = () => {
                         value={row.name}
                         onChange={(e) => onChange(e, 'name', row)}
                         key={`name-${row.id}`}
+                        autoFocus
                       />
                     ) : (
                       row.name
