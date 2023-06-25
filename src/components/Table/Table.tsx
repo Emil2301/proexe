@@ -5,7 +5,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { User, UserWithExtraProperties } from '../../types/Types';
 import styles from './Table.module.css';
 import Button from '@mui/material/Button';
@@ -15,7 +15,11 @@ import { setFetchedUsers, deleteUser, editUser } from '../../redux/usersState';
 import { AppDispatch } from '../../redux/store';
 import { useLocation } from 'react-router-dom';
 
-const UsersTable: React.FC = () => {
+interface UsersTableProps {
+  openModalAndPassRowId: (rowId: number) => void;
+}
+
+const UsersTable: React.FC<UsersTableProps> = ({ openModalAndPassRowId }) => {
   const users = useSelector((state: { users: User[] }) => state.users);
   const { state } = useLocation();
 
@@ -41,23 +45,7 @@ const UsersTable: React.FC = () => {
       })
       .catch((err) => console.log(err));
   };
-  const deleteTheUser = (rowId: number) => {
-    dispatch(deleteUser(rowId));
-    fetch('https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data', {
-      method: 'DELETE',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id: rowId,
-      }),
-    })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((err) => console.log(err));
-  };
+
   const finishEditing = () => {
     setCurrentlyEditingId(null);
   };
@@ -178,7 +166,7 @@ const UsersTable: React.FC = () => {
                         backgroundColor: 'red',
                       }}
                       onClick={() => {
-                        deleteTheUser(row.id);
+                        openModalAndPassRowId(row.id);
                       }}
                     >
                       Delete
