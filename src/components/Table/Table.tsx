@@ -6,54 +6,57 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Users, UsersWithExtraProperties } from '../../types/Types';
+import { User, UserWithExtraProperties } from '../../types/Types';
 import styles from './Table.module.css';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import { useSelector, useDispatch } from 'react-redux';
+import { setFetchedUsers, deleteUser, editUser } from '../../redux/usersState';
+import { AppDispatch } from '../../redux/store';
+import { useLocation } from 'react-router-dom';
 
 const UsersTable: React.FC = () => {
-  const [users, setUsers] = useState<Users[]>([]);
+  const users = useSelector((state: { users: User[] }) => state.users);
+  const { state } = useLocation();
+
+  const dispatch = useDispatch<AppDispatch>();
   const [currentlyEditingId, setCurrentlyEditingId] = useState<number | null>(null);
   const onChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     name: string,
-    row: Users,
+    row: User,
   ) => {
     const { value } = e.target;
-    setUsers(
-      users.map((user) => {
-        if (user.id === currentlyEditingId) {
-          return { ...row, [name]: value };
-        } else {
-          return {
-            ...user,
-          };
-        }
-      }),
-    );
+    dispatch(editUser({ value, name, row, currentlyEditingId }));
   };
-  const deleteUser = (rowId: number) => {
-    setUsers(users.filter((user) => user.id !== rowId));
+  const deleteTheUser = (rowId: number) => {
+    dispatch(deleteUser(rowId));
   };
   const finishEditing = () => {
     setCurrentlyEditingId(null);
   };
   const fetchUserData = () => {
-    fetch('https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data')
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setUsers(
-          data.map((user: UsersWithExtraProperties) => {
-            const { address, company, phone, website, ...rest } = user;
-            return { ...rest, city: address.city };
-          }),
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (state && state.userAdded) {
+      window.history.replaceState({}, document.title);
+    } else {
+      fetch('https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data')
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          dispatch(
+            setFetchedUsers(
+              data.map((user: UserWithExtraProperties) => {
+                const { address, company, phone, website, ...rest } = user;
+                return { ...rest, city: address.city };
+              }),
+            ),
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
   useEffect(() => {
     fetchUserData();
@@ -74,7 +77,7 @@ const UsersTable: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {users.map((row) => {
+            {users.map((row: User) => {
               const currentlyEditing = row.id === currentlyEditingId;
               return (
                 <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -147,7 +150,7 @@ const UsersTable: React.FC = () => {
                         backgroundColor: 'red',
                       }}
                       onClick={() => {
-                        deleteUser(row.id);
+                        deleteTheUser(row.id);
                       }}
                     >
                       Delete

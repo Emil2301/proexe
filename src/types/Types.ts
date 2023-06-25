@@ -1,11 +1,11 @@
-export type Users = {
+export type User = {
   id: number;
   name: string;
   username: string;
   email: string;
   city: string;
 };
-export type UsersWithExtraProperties = Users & {
+export type UserWithExtraProperties = User & {
   address: {
     city: string;
   };

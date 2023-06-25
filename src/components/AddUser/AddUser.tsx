@@ -5,9 +5,14 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { addUser } from '../../redux/usersState';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../redux/store';
 
 const AddUser: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const [nameValue, setNameValue] = useState<string>('');
   const [emailValue, setEmailValue] = useState<string>('');
   const [isNameValid, setIsNameValid] = useState<boolean>(false);
@@ -28,6 +33,12 @@ const AddUser: React.FC = () => {
         console.log(response);
       })
       .catch((err) => console.log(err));
+    dispatch(addUser({ name, email }));
+    navigate('/', {
+      state: {
+        userAdded: true,
+      },
+    });
   };
 
   return (
