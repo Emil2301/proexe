@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/proexe/static/css/main.3472dfaa.css",
+    "main.js": "/proexe/static/js/main.fb10e565.js",
+    "index.html": "/proexe/index.html",
+    "main.3472dfaa.css.map": "/proexe/static/css/main.3472dfaa.css.map",
+    "main.fb10e565.js.map": "/proexe/static/js/main.fb10e565.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3472dfaa.css",
+    "static/js/main.fb10e565.js"
+  ]
+}
