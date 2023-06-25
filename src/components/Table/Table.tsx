@@ -32,6 +32,9 @@ const UsersTable: React.FC = () => {
       }),
     );
   };
+  const deleteUser = (rowId: number) => {
+    setUsers(users.filter((user) => user.id !== rowId));
+  };
   const finishEditing = () => {
     setCurrentlyEditingId(null);
   };
@@ -142,6 +145,9 @@ const UsersTable: React.FC = () => {
                       size='small'
                       style={{
                         backgroundColor: 'red',
+                      }}
+                      onClick={() => {
+                        deleteUser(row.id);
                       }}
                     >
                       Delete
