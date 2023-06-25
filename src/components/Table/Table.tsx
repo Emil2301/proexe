@@ -23,14 +23,40 @@ const UsersTable: React.FC = () => {
   const [currentlyEditingId, setCurrentlyEditingId] = useState<number | null>(null);
   const onChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    name: string,
+    keyName: string,
     row: User,
   ) => {
     const { value } = e.target;
-    dispatch(editUser({ value, name, row, currentlyEditingId }));
+    dispatch(editUser({ value, keyName, row, currentlyEditingId }));
+    fetch('https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data', {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ ...row, [keyName]: value }),
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => console.log(err));
   };
   const deleteTheUser = (rowId: number) => {
     dispatch(deleteUser(rowId));
+    fetch('https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data', {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: rowId,
+      }),
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => console.log(err));
   };
   const finishEditing = () => {
     setCurrentlyEditingId(null);
@@ -90,6 +116,7 @@ const UsersTable: React.FC = () => {
                         size='small'
                         value={row.name}
                         onChange={(e) => onChange(e, 'name', row)}
+                        key={`name-${row.id}`}
                       />
                     ) : (
                       row.name

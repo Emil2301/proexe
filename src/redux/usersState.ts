@@ -13,7 +13,6 @@ export const usersStateSlice = createSlice({
       const cities = ['Warszawa', 'Wrocław', 'Poznań', 'Kraków'];
       const randomCity = cities[Math.floor(Math.random() * 4)];
       const highestIdPlusOne = Math.max(...state.users.map((user) => user.id)) + 1;
-      console.log(randomCity);
       const { name, email } = action.payload;
       state.users = [
         ...state.users,
@@ -30,10 +29,11 @@ export const usersStateSlice = createSlice({
       state.users = state.users.filter((user: User) => user.id !== action.payload);
     },
     editUser: (state, action) => {
-      const { row, value, name, currentlyEditingId } = action.payload;
+      const { row, value, keyName, currentlyEditingId } = action.payload;
+      console.log(currentlyEditingId);
       state.users = state.users.map((user: User) => {
         if (user.id === currentlyEditingId) {
-          return { ...row, [name]: value };
+          return { ...row, [keyName]: value };
         } else {
           return {
             ...user,
